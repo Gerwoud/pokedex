@@ -3,12 +3,9 @@ package com.pokedex.pokedex.ui.terminal;
 import com.pokedex.pokedex.controller.PokedexController;
 import com.pokedex.pokedex.dto.PokedexDTO;
 import com.pokedex.pokedex.ui.gridview.PokedexGridView;
-import com.pokedex.pokedex.ui.pokedexdetail.PokedexBoxview;
 import com.pokedex.pokedex.ui.pokedexlistview.PokedexListView;
 import org.springframework.shell.component.view.TerminalUI;
 import org.springframework.shell.component.view.TerminalUIBuilder;
-import org.springframework.shell.component.view.control.BoxView;
-import org.springframework.shell.component.view.control.GridView;
 import org.springframework.shell.component.view.control.ListView;
 import org.springframework.shell.component.view.event.EventLoop;
 import org.springframework.shell.component.view.event.KeyEvent;
@@ -20,12 +17,14 @@ import java.util.List;
 
 public class PokedexTerminalUI {
 
-    EventLoop eventLoop;
-    TerminalUI terminalUI;
-    PokedexController controller;
-    List<PokedexDTO> pokemons;
+    private final EventLoop eventLoop;
+    private final TerminalUI terminalUI;
+    private final PokedexController controller;
+    private List<PokedexDTO> pokemons;
     private PokedexDTO dto;
-    PokedexListView listView;
+    private PokedexListView listView;
+
+    private static final int AMOUNT_OF_POKEMON = 151;
 
     public PokedexTerminalUI(TerminalUIBuilder builder, ThemeResolver themeResolver) throws IOException {
 
@@ -33,7 +32,7 @@ public class PokedexTerminalUI {
         this.eventLoop = terminalUI.getEventLoop();
         this.controller = new PokedexController();
 
-        this.pokemons = controller.getPokedex(20);
+        this.pokemons = controller.getPokedex(AMOUNT_OF_POKEMON);
 
         this.listView = new PokedexListView(pokemons, themeResolver);
 
