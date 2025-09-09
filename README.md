@@ -18,3 +18,9 @@ Once in the shell you can start loading in the pokemon with:
 list
 ```
 note that this may take a while because they're all loaded in with get requests.
+
+## Demo Video
+
+Watch a demo of the Pokedex CLI in action:
+
+![Pokedex Demo](resources/demo.gif)
