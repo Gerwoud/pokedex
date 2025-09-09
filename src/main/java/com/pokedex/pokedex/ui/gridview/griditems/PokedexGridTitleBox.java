@@ -1,7 +1,6 @@
 package com.pokedex.pokedex.ui.gridview.griditems;
 
 import com.pokedex.pokedex.dto.PokedexDTO;
-import org.springframework.shell.component.view.control.BoxView;
 import org.springframework.shell.component.view.screen.Screen;
 import org.springframework.shell.geom.HorizontalAlign;
 import org.springframework.shell.geom.Rectangle;
@@ -11,6 +10,7 @@ public class PokedexGridTitleBox extends PokedexGridBox {
 
     public PokedexGridTitleBox(PokedexDTO dto) {
         super(dto);
+        setShowBorder(true);
     }
 
     @Override

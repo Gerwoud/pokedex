@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.pokedex.pokedex.PokedexRestTemplate.PokedexRestTemplate;
 import com.pokedex.pokedex.dto.PokedexDTO;
+import com.pokedex.pokedex.dto.StatDTO;
 import org.jline.terminal.Terminal;
 
 import java.util.ArrayList;
@@ -50,6 +51,22 @@ public class PokedexController {
             }
         }
 
+        JsonNode abilityNode = node.get("abilities");
+        List<String> abilities = new ArrayList<>();
+        if (abilityNode.isArray()) {
+            for (int i = 0; i < abilityNode.size(); i++) {
+                abilities.add(abilityNode.get(i).get("ability").get("name").asText());
+            }
+        }
+
+        JsonNode statsNode = node.get("stats");
+        List<StatDTO> stats = new ArrayList<>();
+        if (statsNode.isArray()) {
+            for (int i = 0; i < statsNode.size(); i++) {
+                stats.add(new StatDTO(statsNode.get(i).get("base_stat").asInt(), statsNode.get(i).get("stat").get("name").asText()));
+            }
+        }
+
         currentId = node.get("id").asInt();
 
         JsonNode prevNode = null;
@@ -59,10 +76,10 @@ public class PokedexController {
         JsonNode nextNode = PokedexRestTemplate.fetchPokemonAPI(API + (currentId + 1));
 
         if (prevNode != null) {
-            return new PokedexDTO(currentId, node.get("name").asText(), flavorText, prevNode.get("name").asText(), nextNode.get("name").asText(), types);
+            return new PokedexDTO(currentId, node.get("name").asText(), flavorText, prevNode.get("name").asText(), nextNode.get("name").asText(), types, abilities, stats);
         }
 
-        return new PokedexDTO(currentId, node.get("name").asText(), flavorText, null, nextNode.get("name").asText(), types);
+        return new PokedexDTO(currentId, node.get("name").asText(), flavorText, null, nextNode.get("name").asText(), types, abilities, stats);
 
     }
 
@@ -128,6 +145,4 @@ public class PokedexController {
 
         return allPokemon;
     }
-
-    private int selected = 0;
 }

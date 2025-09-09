@@ -8,6 +8,8 @@ public record PokedexDTO(
         String flavortext,
         String prevPokemon,
         String nextPokemon,
-        List<String> types
+        List<String> types,
+        List<String> abilities,
+        List<StatDTO> stats
 ) {
 }

@@ -33,6 +33,7 @@ public class PokedexGridNavigationBox extends PokedexGridBox {
             output.append(dto.nextPokemon()).append(" (n) ->");
         }
 
-        writer.text(output.toString(), getInnerRect(), HorizontalAlign.CENTER, VerticalAlign.CENTER);
+        writer.text(output.toString(), getInnerRect(), HorizontalAlign.CENTER, VerticalAlign.TOP);
+        writer.text("(q) quit", getInnerRect(), HorizontalAlign.CENTER, VerticalAlign.TOP);
     }
 }

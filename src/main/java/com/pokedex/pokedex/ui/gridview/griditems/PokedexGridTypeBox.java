@@ -52,7 +52,7 @@ public class PokedexGridTypeBox extends PokedexGridBox {
         for (int i = 0; i < types.size(); i++) {
             AttributedStyle color = TYPE_COLORS.getOrDefault(capitalize(types.get(i)), AttributedStyle.DEFAULT.foreground(255));
             AttributedString styled = new AttributedString(" "+types.get(i)+" ", color.foreground(255,255,255));
-            writer.text("   Type " + (i+1) + ": " + styled.toAnsi(), x, y);
+            writer.text("    Type " + (i+1) + ": " + styled.toAnsi(), x, y);
             y++;
         }
     }

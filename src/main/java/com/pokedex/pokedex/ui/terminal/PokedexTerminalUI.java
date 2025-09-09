@@ -4,8 +4,10 @@ import com.pokedex.pokedex.controller.PokedexController;
 import com.pokedex.pokedex.dto.PokedexDTO;
 import com.pokedex.pokedex.ui.gridview.PokedexGridView;
 import com.pokedex.pokedex.ui.pokedexlistview.PokedexListView;
+import com.pokedex.pokedex.ui.pokedexlistview.PokedexListViewInfo;
 import org.springframework.shell.component.view.TerminalUI;
 import org.springframework.shell.component.view.TerminalUIBuilder;
+import org.springframework.shell.component.view.control.GridView;
 import org.springframework.shell.component.view.control.ListView;
 import org.springframework.shell.component.view.event.EventLoop;
 import org.springframework.shell.component.view.event.KeyEvent;
@@ -23,6 +25,7 @@ public class PokedexTerminalUI {
     private List<PokedexDTO> pokemons;
     private PokedexDTO dto;
     private PokedexListView listView;
+    private GridView gridView;
 
     private static final int AMOUNT_OF_POKEMON = 151;
 
@@ -36,11 +39,21 @@ public class PokedexTerminalUI {
 
         this.listView = new PokedexListView(pokemons, themeResolver);
 
+        gridView = new GridView();
+        gridView.setRowSize(listView.getRect().height());
+        gridView.setColumnSize(-4,-1);
+
+        gridView.addItem(listView,0,0,1,1,0,0);
+
+        PokedexListViewInfo pokedexListViewInfo = new PokedexListViewInfo();
+        gridView.addItem(pokedexListViewInfo,0,1,1,1,0,0);
+
+
         subscribe();
 
         this.terminalUI.configure(listView);
 
-        this.terminalUI.setRoot(listView, true);
+        this.terminalUI.setRoot(gridView, true);
         this.terminalUI.setFocus(listView);
         this.terminalUI.run();
 
@@ -57,10 +70,10 @@ public class PokedexTerminalUI {
                     ListView.ListViewItemEventArgs<PokedexDTO> arg = e.args();
                     this.dto = arg.item();
 
-                    PokedexGridView gridView = new PokedexGridView(arg.item());
+                    PokedexGridView pokedexGridView = new PokedexGridView(arg.item());
 
-                    terminalUI.setRoot(gridView, true);
-                    terminalUI.setFocus(gridView);
+                    terminalUI.setRoot(pokedexGridView, true);
+                    terminalUI.setFocus(pokedexGridView);
                 }
         ).subscribe();
 
@@ -68,7 +81,7 @@ public class PokedexTerminalUI {
                 (KeyEvent e) -> {
                     if (e.key() == 113) {
                         // instance q
-                        terminalUI.setRoot(listView, true);
+                        terminalUI.setRoot(gridView, true);
                         terminalUI.setFocus(listView);
                     } else if (e.key() == 110) {
                         // case n
@@ -76,17 +89,17 @@ public class PokedexTerminalUI {
                         System.out.println(dto.id());
                         PokedexDTO nextPokemonDTO = pokemons.get(dto.id());
                         this.dto = nextPokemonDTO;
-                        PokedexGridView gridView = new PokedexGridView(nextPokemonDTO);
-                        terminalUI.setRoot(gridView, true);
-                        terminalUI.setFocus(gridView);
+                        PokedexGridView pokedexGridView = new PokedexGridView(nextPokemonDTO);
+                        terminalUI.setRoot(pokedexGridView, true);
+                        terminalUI.setFocus(pokedexGridView);
                     } else if (e.key() == 112) {
                         // case p
                         if (dto.id()-2 < 0) return;
                         PokedexDTO prevPokemonDTO = pokemons.get(dto.id()-2);
                         this.dto = prevPokemonDTO;
-                        PokedexGridView gridView = new PokedexGridView(prevPokemonDTO);
-                        terminalUI.setRoot(gridView, true);
-                        terminalUI.setFocus(gridView);
+                        PokedexGridView pokedexGridView = new PokedexGridView(prevPokemonDTO);
+                        terminalUI.setRoot(pokedexGridView, true);
+                        terminalUI.setFocus(pokedexGridView);
                     }
                 }
         ).subscribe();

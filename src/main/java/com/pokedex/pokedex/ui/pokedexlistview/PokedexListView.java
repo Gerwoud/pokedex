@@ -17,7 +17,7 @@ public class PokedexListView extends ListView<PokedexDTO> {
         this.setItems(pokemon);
         setThemeResolver(themeResolver);
         this.setShowBorder(true);
-        this.setTitle("Pokedex");
+        this.setTitle(" Pokédex ");
         this.setBorderPadding(2,0,4,0);
     }
 
